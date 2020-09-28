@@ -1,6 +1,4 @@
-using Integrals
 using Test
 
-@testset "Integrals.jl" begin
-    # Write your tests here.
-end
+include("Integrals_test.jl")
+include("Gaussian_test.jl")
