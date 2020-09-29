@@ -1,12 +1,12 @@
 module Gaussian
 
-using StaticArrays
+using Common, StaticArrays
 
 export PrimitiveCartesianGaussian
 
 struct PrimitiveCartesianGaussian
-    ζ::Float64
-    R::SVector{3, Float64}
+    ζ::Float
+    R::Coordinate
     cartesianExponents::SVector{3, Int}
 end
 
