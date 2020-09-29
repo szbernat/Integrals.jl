@@ -16,6 +16,7 @@ Represents the cartesian coordinates of a point in 3D space.
 struct Coordinate <: StaticArray{Tuple{3}, Float, 1}
     coords::NTuple{3, Float}
     Coordinate(coords::NTuple{3, Float}) = new(coords)
+    Coordinate(coords::NTuple{3, T}) where {T} = throw(TypeError(:Coordinate, "coords", Type{Float}, T))
 end
 Base.getindex(R::Coordinate, i::Int) = R.coords[i]
 Tuple(R::Coordinate) = R.coords
