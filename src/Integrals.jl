@@ -2,7 +2,7 @@ module Integrals
 
 using OffsetArrays: OffsetArray
 using StaticArrays: SVector, MMatrix
-using BasisFunctions: Gaussian
+using BasisFunctions: Gaussian, cartesianToSphericalMxs
 using Common: Float
 using Overlap: buildCartesianOverlaps
 
@@ -28,7 +28,7 @@ abstract type OverlapIntegral <: OneElectronIntegral end
 Calculates the overlap integrals between contracted cartesian gaussians at centers Rμ, Rν with expansion coeffiencts cμ, cν and exponents ζμ, ζν, up to angular momentums lμ and lν.
 """
 function contractedIntegrals(::Type{OverlapIntegral}, Rμ::SVector{3, Float}, cμ::SVector{Nμ, Float}, ζμ::SVector{Nμ, Float}, Rν::SVector{3, Float}, cν::SVector{Nν, Float}, ζν::SVector{Nν, Float}, lμ::Int, lν::Int) where {Nμ, Nν}
-    contracted = OffsetArray(Array(zeros(Float, lμ+1, lν+1, 3)), -1, -1, 0)
+    contracted = OffsetArray(zeros(Float, lμ+1, lν+1, 3), -1, -1, 0)
     for i=1:Nμ, j=1:Nν
         contracted += cμ[i] * cν[j] * buildCartesianOverlaps(Rμ, ζμ[i], lμ, Rν, ζν[j], lν)
     end
@@ -62,6 +62,14 @@ function assembleCartesianIntegrals(::Type{OneElectronIntegral}, lμ::Int, lν::
         end
     end
     return cartesianGTO
+end
+
+function overlap()
+    l = 8
+    Scart = assembleCartesianIntegrals(OneElectronIntegral, l, l)
+    cartToSpher = cartesianToSphericalMxs(l)
+    Sspher = transpose(cartToSpher[l]) * Scart * cartToSpher[l]
+    return Sspher
 end
 
 end
