@@ -14,4 +14,8 @@ function positiveDiagonal(l::Int8, m::Int8)
     return sqrt(2 ^ δl0 * (2*l + 1) / (2 * l + 2)) 
 end
 
+function cartesianToSpherical(lmax::Int)
+    
+end
+
 end

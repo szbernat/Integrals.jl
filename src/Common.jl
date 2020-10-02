@@ -2,7 +2,7 @@ module Common
 
 using StaticArrays
 
-export Float, Coordinate, Coordinate2
+export Float, Coordinate, Coordinate2, AngMomArray
 
 Float = Float64
 
@@ -20,5 +20,15 @@ struct Coordinate <: StaticArray{Tuple{3}, Float, 1}
 end
 Base.getindex(R::Coordinate, i::Int) = R.coords[i]
 Tuple(R::Coordinate) = R.coords
+
+#  struct AngMomArray{L, S, T}
+    #  data::NTuple{S, T}
+#  end
+
+#  function AngMomArray{L, T}(data) where {L<:Tuple, T}
+    #  S = (L.parameters[1]+1)^2
+    #  AngMomArray{L, S, T}(data)
+#  end
+#  Base.getindex(a::AngMomArray{L, S, T}, l::Int, m::Int) where {L, S, T} = a.data[l^2+m+l+1]
 
 end
